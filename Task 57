@@ -1,0 +1,67 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+/*
+ * Существует класс солдата. В нём есть поля: имя, вооружение, звание, срок службы(в месяцах).
+Написать запрос, при помощи которого получить набор данных состоящий из имени и звания.
+Вывести все полученные данные в консоль.
+(Не менее 5 записей)
+ */
+
+namespace Task_57
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            DatabaseSoldiers databaseSoldiers = new DatabaseSoldiers();
+            databaseSoldiers.RequestForInformation();
+            Console.ReadKey();
+        }
+    }
+
+    class DatabaseSoldiers
+    {
+        private List<Soldier> _soldiers = new List<Soldier>();
+
+        public DatabaseSoldiers()
+        {
+            _soldiers.Add(new Soldier("Иванов Иван Иваныч", "АК 47", "Сержант", 28));
+            _soldiers.Add(new Soldier("Петров Петр Петрович", "АК 47", "Лейтенант", 14));
+            _soldiers.Add(new Soldier("Сидоров Сидр Сидорович", "Саперская лопата", "Рядовой", 9));
+            _soldiers.Add(new Soldier("Сергиев Сергей Сергеевич", "АК 47", "Сержант", 21));
+            _soldiers.Add(new Soldier("Алексеев Алексей Алексеевич", "Саперская лопата", "Рядовой", 6));
+            _soldiers.Add(new Soldier("Алекссандров Александр Александрович", "АК 47", "Лейтенант", 15));
+        }
+
+        public void RequestForInformation()
+        {
+            Console.WriteLine($"Запрос на получение ФИО и звания:\n");
+            var filteredSoldiers = _soldiers.Select(soldier => (soldier.FullName, soldier.Title)).ToList();
+
+            foreach (var soldier in filteredSoldiers)
+            {
+                Console.WriteLine($"Имя: {soldier.FullName}, звание: {soldier.Title}");
+            }
+        }
+    }
+
+    class Soldier
+    {
+        public string FullName { get; private set; }
+        public string Weapon { get; private set; }
+        public string Title { get; private set; }
+        public int LengthOfService { get; private set; }
+
+        public Soldier(string fullName, string weapon, string title, int lengthOfService)
+        {
+            FullName = fullName;
+            Weapon = weapon;
+            Title = title;
+            LengthOfService = lengthOfService;
+        }
+    }
+}
